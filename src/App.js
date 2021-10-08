@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import NoteDisplayComponent from './components/NoteDisplayComponent';
+import NoteInput from './components/NoteInput';
+import NoteSubmit from './components/NoteSubmit';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './services/notesGQL';
+
 
 function App() {
+  const [inputState, setInputState] = useState('');
+  const [noteDisplay, setNoteDisplay] = useState('');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ApolloProvider client={client}>
+        <NoteInput inputState={inputState} setInputState={setInputState} />
+        <NoteSubmit inputState={inputState} setNoteDisplay={setNoteDisplay} />
+        <NoteDisplayComponent noteDisplay={noteDisplay} />
+      </ApolloProvider>
+    </>
   );
 }
 
